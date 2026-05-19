@@ -15,3 +15,6 @@ spring:
   cache:
     redis:
       time-to-live: 60000
+basket:
+  client:
+    url: https://api.escuelajs.co/api/v1
