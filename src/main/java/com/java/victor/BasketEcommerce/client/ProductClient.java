@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.Optional;
 
-@FeignClient(name = "PlatziStoreClient", url = "basket.client.url")
-public interface ProductClient {
+@FeignClient(name = "PlatziStoreClient", url = "${basket.client.url}")
+public interface  ProductClient {
 
     @GetMapping("/products")
     List<PlatzProductResponse> getAllProducts ();
