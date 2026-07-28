@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.Optional;
 
-@FeignClient(name = "PlatziStoreClient", url = "${basket.client.url}")
+@FeignClient(name = "PlatziStoreClient", url = "${basket.client.url}", configuration = CustomErrorDecoder)
 public interface  ProductClient {
 
     @GetMapping("/products")

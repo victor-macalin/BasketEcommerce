@@ -1,19 +1,18 @@
 package com.java.victor.BasketEcommerce.service;
 
 import com.java.victor.BasketEcommerce.client.request.BasketRequest;
+import com.java.victor.BasketEcommerce.client.request.PagamentoRequest;
 import com.java.victor.BasketEcommerce.client.response.PlatzProductResponse;
+import com.java.victor.BasketEcommerce.exception.DataNotFoundExeption;
 import com.java.victor.BasketEcommerce.model.Basket;
 import com.java.victor.BasketEcommerce.model.Product;
 import com.java.victor.BasketEcommerce.model.StatusBasket;
 import com.java.victor.BasketEcommerce.repository.BasketRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class BasketService {
 
     public Basket findBasketById (String id) {
        return basketRepository.findById(id)
-               .orElseThrow(() -> new IllegalArgumentException("basket nao encontrada"));
+               .orElseThrow(() -> new DataNotFoundExeption("basket nao encontrada"));
     };
 
 
@@ -68,5 +67,15 @@ public class BasketService {
         basket.setProdutos(produtos);
         basket.calcularPrecoTotal();
         return basketRepository.save(basket);
+    }
+
+    public Basket pagamentoBasket (String id, PagamentoRequest pagamentoRequest) {
+        Basket basket = findBasketById(id);
+        basket.setMetodoDePagamento(pagamentoRequest.metodoDePagamento());
+        basket.setStatus(StatusBasket.VENDIDO);
+        return basketRepository.save(basket);
+    }
+    public void deleteBasketId ( String id) {
+        basketRepository.delete(findBasketById(id));
     }
 }

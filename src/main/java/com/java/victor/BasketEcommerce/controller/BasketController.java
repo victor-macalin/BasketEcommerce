@@ -1,21 +1,15 @@
 package com.java.victor.BasketEcommerce.controller;
 
 import com.java.victor.BasketEcommerce.client.request.BasketRequest;
-import com.java.victor.BasketEcommerce.client.response.PlatzProductResponse;
+import com.java.victor.BasketEcommerce.client.request.PagamentoRequest;
 import com.java.victor.BasketEcommerce.model.Basket;
-import com.java.victor.BasketEcommerce.model.Product;
 import com.java.victor.BasketEcommerce.repository.BasketRepository;
 import com.java.victor.BasketEcommerce.service.BasketService;
 import com.java.victor.BasketEcommerce.service.ProductService;
-import feign.FeignException;
-import feign.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/basket")
@@ -49,5 +43,20 @@ public class BasketController {
         catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
+    }
+
+    @PutMapping("/{id}/payment")
+    public ResponseEntity<Basket> pagamentoBasket (@PathVariable String id, @RequestBody PagamentoRequest pagamentoRequest) {
+        try {
+            return ResponseEntity.ok(basketService.pagamentoBasket(id, pagamentoRequest));
+        }
+        catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBasket (@PathVariable String id) {
+        basketService.deleteBasketId(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

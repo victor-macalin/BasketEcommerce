@@ -21,6 +21,7 @@ public class Basket {
     private BigDecimal precoTotal;
     List<Product> produtos;
     private StatusBasket status;
+    private MetodoDePagamento metodoDePagamento;
 
     public void calcularPrecoTotal (){
        this.precoTotal = produtos.stream()
